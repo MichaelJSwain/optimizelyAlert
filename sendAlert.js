@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 require('dotenv').config()
 const {GMAIL_AUTH} = process.env;
 
-const sendAlert = alertBody => {
+const sendAlert = (subjectLine, body) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
@@ -14,8 +14,8 @@ const sendAlert = alertBody => {
     const mailOptions = {
         from: 'michaeljeswain@gmail.com',
         to: 'michaeljeswain@gmail.com',
-        subject: 'Optimizely Web Alert: Missing custom goals',
-        text: alertBody
+        subject: subjectLine,
+        text: body
     };
   
     transporter.sendMail(mailOptions, function(error, info){

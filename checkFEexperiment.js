@@ -22,6 +22,7 @@ const reqBody = {
 };
 
 const fetchRuleset = async (projectID, flagKey, environment) => {
+    console.log("fetching ruleset")
     const options = {method: 'GET', 
         headers: {
             accept: 'application/json',
@@ -31,6 +32,7 @@ const fetchRuleset = async (projectID, flagKey, environment) => {
     const hasEqualTrafficAllocation = await fetch(`https://api.optimizely.com/flags/v1/projects/${projectID}/flags/${flagKey}/environments/${environment}/ruleset`, options)
     .then(response => response.json())
     .then(response => {
+        console.log(response);
         // console.log(response.rules.qa_webhook_test.variations);
         const testVariations = Object.keys(response.rules.qa_webhook_test.variations);
         // console.log(testVariations.variations);
@@ -38,6 +40,7 @@ const fetchRuleset = async (projectID, flagKey, environment) => {
             const v = response.rules.qa_webhook_test.variations[variation];
         return (v.percentage_included * testVariations.length) === 10000;
         })
+        console.log("has equal traffic allocation = ", hasEqualTrafficAllocation);
         return hasEqualTrafficAllocation;
     })
     .catch(err => console.error(err));
